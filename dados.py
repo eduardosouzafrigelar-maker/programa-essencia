@@ -2,12 +2,23 @@ import pandas as pd
 from datetime import datetime
 import firebase_admin
 from firebase_admin import credentials, firestore
+import streamlit as st # 🟢 Precisamos importar o Streamlit aqui também
 
-# ── CONEXÃO COM O FIREBASE ────────────────────────────────────────────────
+# ── CONEXÃO COM O FIREBASE (HÍBRIDO: NUVEM E PC LOCAL) ────────────────────
 if not firebase_admin._apps:
-    cred = credentials.Certificate("firebase-key.json")
+    # Verifica se o sistema está rodando na nuvem (que tem o cofre 'secrets')
+    if "firebase" in st.secrets:
+        # Usa as chaves secretas cadastradas no Streamlit Cloud
+        cred_dict = dict(st.secrets["firebase"])
+        cred = credentials.Certificate(cred_dict)
+    else:
+        # Se estiver rodando no seu computador, usa o arquivo local
+        cred = credentials.Certificate("firebase-key.json")
+        
     firebase_admin.initialize_app(cred)
+
 db_fire = firestore.client()
+# ──────────────────────────────────────────────────────────────────────────
 
 NIVEIS = ["N1 - Ideia", "N2 - Planejamento", "N3 - Execução", "N4 - Implementado", "N0 - Cancelada"]
 
