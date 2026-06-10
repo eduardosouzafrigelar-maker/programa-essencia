@@ -1,0 +1,6 @@
+# Ignorar ambiente virtual e caches
+venv/
+__pycache__/
+
+# Ignorar chaves de banco de dados (MUITO IMPORTANTE)
+firebase-key.json
