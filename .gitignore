@@ -2,5 +2,5 @@
 venv/
 __pycache__/
 
-# Ignorar chaves de banco de dados (MUITO IMPORTANTE)
+# Ignorar chaves de banco de dados
 firebase-key.json
