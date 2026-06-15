@@ -4,15 +4,12 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 import streamlit as st # 🟢 Precisamos importar o Streamlit aqui também
 
-# ── CONEXÃO COM O FIREBASE (HÍBRIDO: NUVEM E PC LOCAL) ────────────────────
 if not firebase_admin._apps:
-    # Verifica se o sistema está rodando na nuvem (que tem o cofre 'secrets')
+    # Cofre 'secrets'
     if "firebase" in st.secrets:
-        # Usa as chaves secretas cadastradas no Streamlit Cloud
         cred_dict = dict(st.secrets["firebase"])
         cred = credentials.Certificate(cred_dict)
     else:
-        # Se estiver rodando no seu computador, usa o arquivo local
         cred = credentials.Certificate("firebase-key.json")
         
     firebase_admin.initialize_app(cred)
@@ -128,7 +125,7 @@ def adicionar_comentario(id_, texto, usuario):
 def atualizar_oportunidade(id_, campos, usuario):
     db_fire.collection("oportunidades").document(id_).update(campos)
 
-# ── NOVAS FUNÇÕES PARA GESTÃO MANUAL DE USUÁRIOS ──────────────────────────────
+# ── GESTÃO MANUAL DE USUÁRIOS ──────────────────────────────
 
 def cadastrar_usuario_manual(login, nome, perfil, email, filial, area, frente, senha):
     novo_usuario = {
@@ -188,7 +185,7 @@ def autenticar(login, senha):
             
     return None
 
-# ── NOVA FUNÇÃO DE EDIÇÃO DE USUÁRIO ──────────────────────────────────────────
+# ── EDIÇÃO DE USUÁRIO ──────────────────────────────────────────
 def atualizar_usuario_completo(login, nome, email, perfil, frente, filial, nova_senha):
     atualizacao = {
         "nome": nome, "Nome Completo": nome,
@@ -202,7 +199,7 @@ def atualizar_usuario_completo(login, nome, email, perfil, frente, filial, nova_
         
     db_fire.collection("usuarios").document(login).update(atualizacao)
 
-# ── NOVA FUNÇÃO DE IMPORTAÇÃO DE EXCEL ────────────────────────────────────────
+# ── IMPORTAÇÃO DE EXCEL ────────────────────────────────────────
 def importar_base_excel(df, u):
     from datetime import datetime
     import uuid  
@@ -262,3 +259,5 @@ def salvar_orcamento(dados):
 def excluir_usuario(login):
     """Apaga o documento do usuário definitivamente do banco de dados."""
     db_fire.collection("usuarios").document(login).delete()
+
+# NÃO MEXER NO CÓDIGO QUE ESTÁ DANDO CERTO
