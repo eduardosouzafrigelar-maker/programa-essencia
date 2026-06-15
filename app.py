@@ -17,7 +17,7 @@ def obter_bg_base64(caminho_imagem):
 
 bg_base64 = obter_bg_base64("image_7e68ea.jpg")
 
-# ── CSS GLOBAL DO APLICATIVO ──────────────────────────────────────────────────
+# ── CSS APLICATIVO ──────────────────────────────────────────────────
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
@@ -75,7 +75,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ── CSS DO LOGIN BLINDADO ─────────────────────────────────────────────────────
+# ── CSS DO LOGIN ─────────────────────────────────────────────────────
 if not st.session_state.get("usuario"):
     st.markdown(f"""
     <style>
@@ -411,7 +411,7 @@ def pagina_painel_integrado():
             orc = orc_data.get(f, 0.0)
             relatorio.append({"Frente": f, "Orçado": brl(orc), "Realizado N4": brl(realizado), "Atingimento": f"{(realizado/orc*100) if orc>0 else 0:.1f}%"})
         
-        # Usa dataframe nativo para ficar bonito
+        # Tentando deixar mais bonito
         st.dataframe(pd.DataFrame(relatorio), use_container_width=True, hide_index=True)
 
     with tab_excel:
